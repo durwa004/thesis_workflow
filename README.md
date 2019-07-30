@@ -1,4 +1,5 @@
-Pipeline for thesis.
+###Pipeline for thesis.
+
 PROTOCOLS - all protocols for setting up and running pipeline
 MAPPING - scripts for mapping FASTQa
 VARIANT_CALLING - scripts for obtaining individual and group gvcfs from bcftools and gatk, and individual gvcfs from platypus
