@@ -1,0 +1,25 @@
+#!/bin/bash -l
+#PBS -l nodes=1:ppn=6,walltime=48:00:00,mem=10g
+#PBS -m abe
+#PBS -M durwa004@umn.edu
+#PBS -q mcqueue
+
+
+source /home/mccuem/shared/.local/conda/bin/activate ensembl-vep
+
+cd /home/mccuem/shared/Projects/HorseGenomeProject/Data/ibio_EquCab3/AFIB_cases/
+
+filter_vep -i AFIB_cases_union_HC_ST_PL_ensembl-vep --filter "IMPACT = HIGH" -o AFIB_cases_ensembl-vep_high.txt --format tab
+
+
+filter_vep -i AFIB_cases_union_HC_ST_PL_ensembl-vep --filter "IMPACT = MODERATE" -o AFIB_cases_ensembl-vep_mod.txt --format tab
+
+
+filter_vep -i AFIB_cases_union_HC_ST_PL_ensembl-vep --filter "IMPACT = LOW" -o AFIB_cases_ensembl-vep_low.txt --format tab
+
+
+#Concatenate files
+cat AFIB_cases_ensembl-vep_high.txt AFIB_cases_ensembl-vep_mod.txt AFIB_cases_ensembl-vep_low.txt > AFIB_cases_ensembl-vep_high_mod_low.txt
+#This won't work because text file not vcf!
+#module load bcftools
+#bcftools concat -a AFIB_cases_ensembl-vep_high.txt AFIB_cases_ensembl-vep_mod.txt AFIB_cases_ensembl-vep_low.txt -O z -o AFIB_cases_high_moderate_low_variants.txt

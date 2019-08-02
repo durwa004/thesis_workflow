@@ -1,0 +1,17 @@
+#!/bin/bash -l
+#PBS -l nodes=1:ppn=12,walltime=48:00:00,mem=12g
+#PBS -m abe
+#PBS -M durwa004@umn.edu
+#PBS -q small
+
+cd /home/mccuem/shared/Projects/HorseGenomeProject/Data/ibio_EquCab3/AFIB_cases/
+
+#java -Xmx4g -jar /home/mccuem/shared/.local/conda/envs/HorseGenomeProject/bin/GenomeAnalysisTK.jar -T CombineVariants -R /home/mccuem/shared/Projects/HorseGenomeProject/Data/ibio_EquCab3/NCBI_reference/GCF_002863925.1_EquCab3.0_genomic.fna --variant:M8679 ibio_output_files/M8679/M8679.platypus.vcf.gz --variant:M6138 ibio_output_files/M6138/M6138.platypus.vcf.gz --variant:M6117 ibio_output_files/M6117/M6117.platypus.vcf.gz --variant:M6137 ibio_output_files/M6137/M6137.platypus.vcf.gz --variant:M8738 ibio_output_files/M8738/M8738.platypus.vcf.gz --variant:M10664 ibio_output_files/M10664/M10664.platypus.vcf.gz  -o AFIB_cases_PL.vcf.gz -nt 4
+
+#java -Xmx4g -jar /home/mccuem/shared/.local/conda/envs/HorseGenomeProject/bin/GenomeAnalysisTK.jar -T CombineVariants -R /home/mccuem/shared/Projects/HorseGenomeProject/Data/ibio_EquCab3/NCBI_reference/GCF_002863925.1_EquCab3.0_genomic.fna --variant:M8679 ibio_output_files/M8679/M8679.bcftools.vcf.gz --variant:M6138 ibio_output_files/M6138/M6138.bcftools.vcf.gz --variant:M6117 ibio_output_files/M6117/M6117.bcftools.vcf.gz --variant:M6137 ibio_output_files/M6137/M6137.bcftools.vcf.gz --variant:M8738 ibio_output_files/M8738/M8738.bcftools.vcf.gz --variant:M10664 ibio_output_files/M10664/M10664.bcftools.vcf.gz  -o AFIB_cases_ST.vcf.gz -nt 4
+
+java -Xmx4g -jar /home/mccuem/shared/.local/conda/envs/HorseGenomeProject/bin/GenomeAnalysisTK.jar -T CombineVariants -R /home/mccuem/shared/Projects/HorseGenomeProject/Data/ibio_EquCab3/NCBI_reference/GCF_002863925.1_EquCab3.0_genomic.fna --variant:ST AFIB_cases_ST.vcf.gz --variant:PL AFIB_cases_PL.vcf.gz --variant:HC AFIB_cases.genotyped.vcf.gz -o AFIB_cases_union_HC_ST_PL.vcf.gz -genotypeMergeOptions PRIORITIZE -nt 4 -priority HC,ST,PL
+
+module load bcftools
+
+bcftools stats AFIB_cases_union_HC_ST_PL.vcf.gz > AFIB_cases_HC_ST_PL.stats

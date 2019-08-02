@@ -1,0 +1,30 @@
+#!/bin/bash -l
+#PBS -l nodes=1:ppn=6,walltime=24:00:00,mem=20gb
+#PBS -m abe
+#PBS -M durwa004@umn.edu
+#PBS -q mcqueue
+
+#cd /home/mccuem/shared/Projects/HorseGenomeProject/Data/ibio_EquCab3/variant_annotation/annovar
+
+#Set up new database
+#source activate annovar
+#gff3ToGenePred GCF_002863925.1_EquCab3.0_genomic.gff GCF_002863925.1_EquCab3.0_db/GCF_002863925.1_EquCab3.0_refGene.txt
+#perl retrieve_seq_from_fasta.pl --format refGene --seqfile /home/mccuem/shared/Projects/HorseGenomeProject/Data/ibio_EquCab3/NCBI_reference/GCF_002863925.1_EquCab3.0_genomic.fna GCF_002863925.1_EquCab3.0_db/GCF_002863925.1_EquCab3.0_refGene.txt --out GCF_002863925.1_EquCab3.0_db/GCF_002863925.1_EquCab3.0_refGeneMrna.fa
+
+cd /home/mccuem/shared/Projects/HorseGenomeProject/Data/ibio_EquCab3/variant_annotation/annovar/
+#Gene based annotation
+#1. Convert vcf
+#perl ../variant_annotation/annovar/convert2annovar.pl -format vcf4 -allsample -include -withfreq AFIB_cases_union_HC_ST_PL.vcf.gz -outfile AFIB_cases_union_HC_ST_PL.avinput
+
+perl annotate_variation.pl -buildver GCF_002863925.1_EquCab3.0 ../../AFIB_cases/AFIB_cases_union_HC_ST_PL.avinput GCF_002863925.1_EquCab3.0_db --geneanno --hgvs -aamatrixfile example/grantham.matrix --out ../../AFIB_cases/AFIB_cases_union_HC_ST_PL_annovar
+
+
+
+#Apparently table is easer to use and can use vcf input:
+#perl table_annotate.pl --build EC3 EC3db_112018/dz_cases_union.avinput EC3db_112018/ --geneanno --out ../../EquCab3/dz_cases/dz_cases_annovar_table -csvout
+
+#perl table_annovar.pl --build EC3 ../../EquCab3/dz_cases/dz_cases_union_HC_ST_PL.vcf.gz EC3db_112018/ --out ../../EquCab3/dz_cases/dz_cases_annovar_table -vcfinput -protocol refGene -operation gx
+#Can use -csvout but not with vcf input
+
+#Region based
+#perl annotate_variation.pl -regionanno --buildver EC3 EC3 EC3db_112018/dz_cases_union.avinput EC3db_112018/ --outfile ../../../Data/EquCab3/dz_cases/dz_cases_annovar_region
