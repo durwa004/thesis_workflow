@@ -1,1 +1,0 @@
-/home/mccuem/shared/Projects/HorseGenomeProject/Data/ibio_EquCab3/AFIB_cases/ibio_output_files/Snakefile
