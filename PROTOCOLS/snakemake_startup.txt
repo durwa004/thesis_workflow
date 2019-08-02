@@ -1,0 +1,29 @@
+#Plan to try and use snakemake to make this pipeline as user friendly and reusable as possible
+#Start with creating a new environment
+bash
+conda create --name snakemake
+source activate snakemake
+conda install -c bioconda snakemake
+
+#Look at tutorial for help. This webpage has the basic commands: https://snakemake.readthedocs.io/en/stable/executable.html
+#
+##Run whole pipeline: --forceall
+##Dry run: -n
+##Get reason for each rule execution: -p
+##Run pipeline: snakemake
+##Use particular environments: --use-conda
+##Run jobs that can be run in parallele in parallele over 4 cores: -j 4
+#
+##Submit a maximum of 10 jobs at a time: --cluster "qsub -q mcqueue" --jobs 10
+##Can also use drmaa: --drmaa " -q name" --jobs 10
+##drmaa is the better option (need to look up set up options using GenomeSTRiP)
+##Can add a script to determine the job status on the cluster
+##May need to check with Rob/Jonah about this
+##Can make constraints on the samples that are run
+##It is possible to use a job wrapper - may need to look into this.
+#
+##Visualize the workflow: --dag
+#
+#
+
+
