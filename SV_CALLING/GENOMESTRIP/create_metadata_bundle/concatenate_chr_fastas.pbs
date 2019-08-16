@@ -1,0 +1,19 @@
+#!/bin/bash -l 
+#PBS -l nodes=1:ppn=1,walltime=48:00:00,mem=30gb
+#PBS -m abe
+#PBS -M durwa004@umn.edu
+#PBS -q mcqueue
+
+source ~/.genomestrip_bashrc 
+
+cd /home/mccuem/shared/Projects/HorseGenomeProject/Data/EquCab3/dz_cases/CNVs/genomestrip/genomestrip_ibio/References/work
+
+sh /home/mccuem/shared/Projects/HorseGenomeProject/scripts/EquCab3/ToolsforPMinthehorse/CNV_calling/concat_chrom_fastas.sh
+
+cd /home/mccuem/shared/Projects/HorseGenomeProject/Data/EquCab3/dz_cases/CNVs/genomestrip/genomestrip_ibio/References/
+sed 's$>$\n>$g' GCF_002863925.1_EquCab3.0_genomic.svmask.fasta > GCF_002863925.1_EquCab3.0_genomic.svmask.fasta_sed
+sed '/^$/d' GCF_002863925.1_EquCab3.0_genomic.svmask.fasta > GCF_002863925.1_EquCab3.0_genomic.svmask.fasta.sed
+
+mv GCF_002863925.1_EquCab3.0_genomic.svmask.fasta.sed GCF_002863925.1_EquCab3.0_genomic.svmask.fasta
+
+

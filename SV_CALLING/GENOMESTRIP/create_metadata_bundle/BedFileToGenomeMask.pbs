@@ -1,0 +1,32 @@
+#!/bin/bash -l
+#PBS -l nodes=1:ppn=8,walltime=24:00:00,mem=40gb
+#PBS -m abe
+#PBS -M durwa004@umn.edu
+#PBS -q mcqueue
+
+source ~/.genomestrip_bashrc
+
+cd /home/mccuem/shared/Projects/HorseGenomeProject/Data/EquCab3/dz_cases/CNVs/genomestrip/genomestrip_ibio/References/
+
+runDir=/home/mccuem/shared/Projects/HorseGenomeProject/Data/EquCab3/dz_cases/CNVs/genomestrip/genomestrip_ibio/References/
+
+#Need to create  merged bed-file of all of the regions you want to exclude (regions of the genome known to have variable ploidy, sex chromosomes, miscellaneous contigs,
+#Not to be confused with a plink .bed file. 
+#Need chrom start stop as columns
+#Will need to use python for this: Extract_chrX_and_contigs.py
+
+reference=GCF_002863925.1_EquCab3.0_genomic
+
+#These executables must be on your path.
+which java > /dev/null || exit 1
+which bwa > /dev/null || exit 1
+#The directory containing libbwa.so must be on your LD_LIBRARY_PATH
+#export LD_LIBRARY_PATH=${SV_DIR}/bwa:${LD_LIBRARY_PATH}
+#classpath="${SV_DIR}/lib/SVToolkit.jar:${SV_DIR}/lib/gatk/GenomeAnalysisTK.jar"
+
+
+java -cp ${SV_CLASSPATH} -Xmx4g \
+    org.broadinstitute.sv.apps.BedFileToGenomeMask \
+    -I ${reference}.gcmask.bed \
+    -R ${reference}.fasta  \
+    -O ${reference}.gcmask.fasta

@@ -1,0 +1,40 @@
+#!/bin/bash -l                                                        
+#PBS -l nodes=1:ppn=1,walltime=24:00:00,mem=4gb                            
+#PBS -m abe
+#PBS -M durwa004@umn.edu
+#PBS -q mcqueue
+
+cd /home/mccuem/shared/Projects/HorseGenomeProject/Data/EquCab3/interval_bio_comparison/IB_eval10/for_genomestrip/
+
+module load parallel
+module load plink/1.90b
+
+#Extract X chromosome - use gatk
+/home/mccuem/shared/.local/bin/vcftools --gzvcf ../IB_gatk_genotyped.vcf.gz --chr NC_009175.3 --recode-INFO-all --recode --out ibio_gatk_X
+
+#Need to remove stars
+sed 's$,*$$g' ibio_gatk_X.recode.vcf > ibio_gatk_X_sed.recode.vcf
+sed 's$*$$g' ibio_gatk_X_sed.recode.vcf > ibio_gatk_X_sed1.recode.vcf
+#Also need to recorde chromosome to X
+sed 's$NC_009175.3$X$g' ibio_gatk_X_sed1.recode.vcf >  ibio_gatk_X_sed2.recode.vcf
+ 
+#Convert to binary files and fill in SNP IDs
+plink --horse --nonfounders --allow-no-sex --vcf ibio_gatk_X_sed2.recode.vcf --set-missing-var-ids @:# --make-bed --out ibio_gatk_X_plink
+
+#Prune for LD
+#Need to create SNP IDs for this first! 
+plink --horse --nonfounders --allow-no-sex --bfile ibio_gatk_X_plink --indep-pairphase 20000 2000 0.5 --out ibio_gatk_X_plink_LD_prune
+
+plink --horse --nonfounders --allow-no-sex --bfile ibio_gatk_X_plink --extract ibio_gatk_X_plink_LD_prune.prune.in --make-bed --out ibio_gatk_X_plink_LD_pruned
+
+
+#Pull out PAR (start and stop based on 1st and last genes in PAR from Raudsepp paper) - this won't work as says it needs X and XY codes
+#plink --bfile ibio_gatk_X_plink --split-x 29222 1806271 --make-bed --out ibio_gatk_X_split_PAR --horse --nonfounders --allow-no-sex
+
+#impute sex doesn't seem to work so try check-sex
+#F is highest in males (close to 1) and lowest in females
+#plink --bfile ibio_gatk_X_plink --check-sex 0.4 0.6 --make-bed --out ibio_gatk_X_with_sex --horse --nonfounders --allow-no-sex
+plink --bfile ibio_gatk_X_plink_LD_pruned --check-sex 0.1 0.7 --make-bed --out ibio_gatk_X_LD_pruned_with_sex --horse --nonfounders --allow-no-sex
+#Output of .sexcheck - gives SNPSEX - has imputed for each horse - so use this for now.
+#Even though it said it failed to check.
+
