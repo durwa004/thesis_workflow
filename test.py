@@ -21,17 +21,17 @@ def make_arg_parser():
             required=True,
             help="Path to dir containing the ibio output files [required]")
     parser.add_argument(
-            "-i", "--ids",
+            "-v", "--vcf",
             default=argparse.SUPPRESS,
             metavar="",
             required=True,
-            help="Text file containing horse ids - one per line [required]")
+            help="Location of vcf file for analysis [required]")
     parser.add_argument(
-            "-p", "--program",
+            "-v", "--vcf",
             default=argparse.SUPPRESS,
             metavar="",
             required=True,
-            help="GATK4 program that you are wanting to use (e.g. GenotypeGVCFS) [required]")    
+            help="Location of vcf file for analysis [required]")
     return parser
 
 
@@ -41,10 +41,8 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     data = os.path.abspath(args.data)
-    horse_ids = os.path.abspath(args.ids)
-    program = (args.program)
-    
-    prog = program
+    vcf_file = args.vcf
+
     gatk = "/home/mccuem/shared/.local/conda/envs/HorseGenomeProject/bin/gatk/gatk"
     java = '--java-options "-Xmx4g"'
     ref = "/home/mccuem/shared/Projects/HorseGenomeProject/Data/ibio_EquCab3/NCBI_reference/GCF_002863925.1_EquCab3.0_genomic.fna"
@@ -56,28 +54,20 @@ if __name__ == '__main__':
               "#PBS -l nodes=1:ppn=12,walltime=48:00:00,mem=12g\n"
               "#PBS -m abe\n"
               "#PBS -M durwa004@umn.edu\n"
-              f"#PBS -o $PBS_JOBID.union_{prog}.out\n"
-              f"#PBS -e $PBS_JOBID.union_{prog}.err\n"
-              f"#PBS -N gatk_{prog}.pbs\n"
+              f"#PBS -o $PBS_JOBID.gatk_intersect.out\n"
+              f"#PBS -e $PBS_JOBID.gatk_intersect.err\n"
+              f"#PBS -N gatk_intersect.pbs\n"
               "#PBS -q small\n"
              )
     
-    tmp = []
-    with open(horse_ids) as ids:
-        for line in ids:
-            tmp.append(line.strip())
-    
-    pbs = os.path.join(os.getcwd(), f"gatk_{prog}.pbs")
+    pbs = os.path.join(os.getcwd(), f"gatk_intersect.pbs")
     
     with open(pbs, "w") as f:
         print(header, file=f)
         print(f"cd {data}\n", file=f)
         print(f"{gatk} {java}" 
               + f" {prog} -R "
-              + f"{ref} \\", file=f)
-    
-        for i in tmp:
-            print(f"  -V:{i} " 
-                  + f"./ibio_output_files/{i}/{i}.gatk.gvcf.gz \\", file=f)
-        print(f"  -o ibio_all_{prog}.vcf.gz -nt 4", file=f)
-        
+              + f"{ref} \\"
+              + "  -V "
+              + f"{vcf_file} \\"
+              + f" -o ibio_all_intersect.vcf.gz -nt 4", file=f)

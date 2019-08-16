@@ -1,0 +1,12 @@
+#!/bin/bash -l
+#PBS -l nodes=1:ppn=12,walltime=48:00:00,mem=12g
+#PBS -m abe
+#PBS -M durwa004@umn.edu
+#PBS -o $PBS_JOBID.gatk_GenotypeGVCFs_HOLS0175A.out
+#PBS -e $PBS_JOBID.gatk_GenotypeGVCFs_HOLS0175A.err
+#PBS -N gatk_GenotypeGVCFs_HOLS0175A.pbs
+#PBS -q small
+
+cd /home/mccuem/shared/Projects/HorseGenomeProject/Data/ibio_EquCab3/ibio_output_files
+
+/home/mccuem/shared/.local/conda/envs/HorseGenomeProject/bin/gatk/gatk --java-options "-Xmx4g" GenotypeGVCFs -R /home/mccuem/shared/Projects/HorseGenomeProject/Data/ibio_EquCab3/NCBI_reference/GCF_002863925.1_EquCab3.0_genomic.fna \ -V:HOLS0175A ./ibio_output_files/HOLS0175A/HOLS0175A.gatk.gvcf.gz \ -o ibio_HOLS0175A.gatk.vcf.gz -nt 4

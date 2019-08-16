@@ -1,0 +1,17 @@
+#!/bin/bash -l
+#PBS -l nodes=1:ppn=12,walltime=48:00:00,mem=12g
+#PBS -m abe
+#PBS -M durwa004@umn.edu
+#PBS -o $PBS_JOBID.prze.breakdancer.out
+#PBS -e $PBS_JOBID.prze.breakdancer.err
+#PBS -N prze.breakdancer.pbs
+#PBS -q small
+
+cd /home/mccuem/shared/Projects/HorseGenomeProject/Data/ibio_EquCab3/ibio_output_files
+
+#Create config file
+/home/mccuem/durwa004/.conda/envs/breakdancer/bin/bam2cfg.pl ./ibio_output_files/PRZE0150A/PRZE0150A.recalibrated.bam ./ibio_output_files/PRZE0151A/PRZE0151A.recalibrated.bam ./ibio_output_files/PRZE0152A/PRZE0152A.recalibrated.bam ./ibio_output_files/PRZE0154A/PRZE0154A.recalibrated.bam ./ibio_output_files/PRZE0155A/PRZE0155A.recalibrated.bam ./ibio_output_files/MONG0153A/MONG0153A.recalibrated.bam ./ibio_output_files/PRZE0159A/PRZE0159A.recalibrated.bam ./ibio_output_files/PRZE0160A/PRZE0160A.recalibrated.bam ./ibio_output_files/PRZE0161A/PRZE0161A.recalibrated.bam ./ibio_output_files/PRZE0162A/PRZE0162A.recalibrated.bam ./ibio_output_files/PRZE0156A/PRZE0156A.recalibrated.bam ./ibio_output_files/PRZE0157A/PRZE0157A.recalibrated.bam ./ibio_output_files/PRZE0158A/PRZE0158A.recalibrated.bam > ibio_prze_breakdancer.cfg
+
+
+#Run Breakdancer
+/home/mccuem/shared/.local/conda/envs/HorseGenomeProject/bin/breakdancer/bin/breakdancer -q 10 ibio_prze_breakdancer.cfg > ibio_prze_breakdancer

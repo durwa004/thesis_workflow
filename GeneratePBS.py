@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 """
 Created on Mon Aug  5 11:04:17 2019
-
 @author: jonahcullen
 """
 
@@ -72,6 +71,3 @@ if __name__ == '__main__':
             print(f"  --variant:{i} " 
                   + f"./ibio_output_files/{i}/{i}.platypus.vcf.gz \\", file=f)
         print("  -o AFIB_cases_PL.vcf.gz -nt 4", file=f)
-        
-
-        

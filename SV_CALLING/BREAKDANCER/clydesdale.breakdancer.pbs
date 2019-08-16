@@ -1,0 +1,17 @@
+#!/bin/bash -l
+#PBS -l nodes=1:ppn=12,walltime=48:00:00,mem=12g
+#PBS -m abe
+#PBS -M durwa004@umn.edu
+#PBS -o $PBS_JOBID.clydesdale.breakdancer.out
+#PBS -e $PBS_JOBID.clydesdale.breakdancer.err
+#PBS -N clydesdale.breakdancer.pbs
+#PBS -q small
+
+cd /home/mccuem/shared/Projects/HorseGenomeProject/Data/ibio_EquCab3/ibio_output_files
+
+#Create config file
+/home/mccuem/durwa004/.conda/envs/breakdancer/bin/bam2cfg.pl ./ibio_output_files/M1557/M1557.recalibrated.bam ./ibio_output_files/M1559/M1559.recalibrated.bam ./ibio_output_files/M1561/M1561.recalibrated.bam ./ibio_output_files/M1568/M1568.recalibrated.bam ./ibio_output_files/M1570/M1570.recalibrated.bam ./ibio_output_files/M1571/M1571.recalibrated.bam ./ibio_output_files/M1579/M1579.recalibrated.bam ./ibio_output_files/M1581/M1581.recalibrated.bam ./ibio_output_files/M1583/M1583.recalibrated.bam ./ibio_output_files/M7645/M7645.recalibrated.bam ./ibio_output_files/M1556/M1556.recalibrated.bam ./ibio_output_files/M1565/M1565.recalibrated.bam ./ibio_output_files/M1563/M1563.recalibrated.bam ./ibio_output_files/M2023/M2023.recalibrated.bam ./ibio_output_files/M2025/M2025.recalibrated.bam ./ibio_output_files/M2039/M2039.recalibrated.bam ./ibio_output_files/M2044/M2044.recalibrated.bam ./ibio_output_files/M2060/M2060.recalibrated.bam ./ibio_output_files/M2068/M2068.recalibrated.bam > ibio_clydesdale_breakdancer.cfg
+
+
+#Run Breakdancer
+/home/mccuem/shared/.local/conda/envs/HorseGenomeProject/bin/breakdancer/bin/breakdancer -q 10 ibio_clydesdale_breakdancer.cfg > ibio_clydesdale_breakdancer

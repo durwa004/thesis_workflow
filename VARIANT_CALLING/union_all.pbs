@@ -1,0 +1,16 @@
+#!/bin/bash -l
+#PBS -l nodes=1:ppn=12,walltime=48:00:00,mem=12g
+#PBS -m abe
+#PBS -M durwa004@umn.edu
+#PBS -o $PBS_JOBID.union_all.out
+#PBS -e $PBS_JOBID.union_all.err
+#PBS -N union_all.pbs
+#PBS -q small
+
+cd /home/mccuem/shared/Projects/HorseGenomeProject/Data/ibio_EquCab3/ibio_ouput_files
+
+java -Xmx4g -jar /home/mccuem/shared/.local/conda/envs/HorseGenomeProject/bin/GenomeAnalysisTK.jar -T CombineVariants -R /home/mccuem/shared/Projects/HorseGenomeProject/Data/ibio_EquCab3/NCBI_reference/GCF_002863925.1_EquCab3.0_genomic.fna \
+  --variant:gatk ibio_all_gatk.vcf.gz \
+  --variant:bcftools ibio_all_bcftools.vcf.gz \
+  --variant:platypus ibio_all_platypus.vcf.gz \
+  -o ibio_union_gatk_bcftools_platypus.vcf.gz -nt 4

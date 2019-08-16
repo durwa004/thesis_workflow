@@ -7,7 +7,7 @@
 #PBS -N union_bcftools.pbs
 #PBS -q small
 
-cd /home/mccuem/shared/Projects/HorseGenomeProject/Data/ibio_EquCab3/ibio_ouput_files
+cd /home/mccuem/shared/Projects/HorseGenomeProject/Data/ibio_EquCab3/ibio_output_files
 
 java -Xmx4g -jar /home/mccuem/shared/.local/conda/envs/HorseGenomeProject/bin/GenomeAnalysisTK.jar -T CombineVariants -R /home/mccuem/shared/Projects/HorseGenomeProject/Data/ibio_EquCab3/NCBI_reference/GCF_002863925.1_EquCab3.0_genomic.fna \
   --variant:A1543 ./ibio_output_files/A1543/A1543.bcftools.vcf.gz \
@@ -556,4 +556,4 @@ java -Xmx4g -jar /home/mccuem/shared/.local/conda/envs/HorseGenomeProject/bin/Ge
   --variant:YAKU0169A ./ibio_output_files/YAKU0169A/YAKU0169A.bcftools.vcf.gz \
   --variant:YAKU0170A ./ibio_output_files/YAKU0170A/YAKU0170A.bcftools.vcf.gz \
   --variant:YAKU0171A ./ibio_output_files/YAKU0171A/YAKU0171A.bcftools.vcf.gz \
-  -o AFIB_cases_bcftools.vcf.gz -nt 4
+  -o ibio_all_bcftools.vcf.gz -nt 4

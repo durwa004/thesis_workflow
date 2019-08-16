@@ -1,0 +1,12 @@
+#!/bin/bash -l
+#PBS -l nodes=1:ppn=12,walltime=48:00:00,mem=12g
+#PBS -m abe
+#PBS -M durwa004@umn.edu
+#PBS -o $PBS_JOBID.gatk_GenotypeGVCFs_ERR1397965.out
+#PBS -e $PBS_JOBID.gatk_GenotypeGVCFs_ERR1397965.err
+#PBS -N gatk_GenotypeGVCFs_ERR1397965.pbs
+#PBS -q small
+
+cd /home/mccuem/shared/Projects/HorseGenomeProject/Data/ibio_EquCab3/ibio_output_files
+
+/home/mccuem/shared/.local/conda/envs/HorseGenomeProject/bin/gatk/gatk --java-options "-Xmx4g" GenotypeGVCFs -R /home/mccuem/shared/Projects/HorseGenomeProject/Data/ibio_EquCab3/NCBI_reference/GCF_002863925.1_EquCab3.0_genomic.fna \ -V:ERR1397965 ./ibio_output_files/ERR1397965/ERR1397965.gatk.gvcf.gz \ -o ibio_ERR1397965.gatk.vcf.gz -nt 4
