@@ -1,0 +1,13 @@
+#!/bin/bash -l
+#PBS -l nodes=1:ppn=12,walltime=48:00:00,mem=12g
+#PBS -m abe
+#PBS -M durwa004@umn.edu
+#PBS -o $PBS_JOBID.bcftools_convert_joint.out
+#PBS -e $PBS_JOBID.bcftools_convert_joint.err
+#PBS -N bcftools_convert_joint.pbs
+#PBS -q small
+module load bcftools
+
+cd /home/mccuem/shared/Projects/HorseGenomeProject/Data/ibio_EquCab3/ibio_output_files/bcftools_joint
+
+for i in  NC_009158_3 NC_009159_3 NC_009160_3 NC_009161_3 NC_009162_3 NC_009163_3 NC_009164_3 NC_009165_3 NC_009166_3 NC_009167_3 NC_009168_3 NC_009169_3 NC_009170_3 NC_009171_3 NC_009172_3 NC_009173_3 NC_009174_3 NC_009175_3 unplaced NC_001640_1 NC_009144_3 NC_009145_3 NC_009146_3 NC_009147_3 NC_009148_3 NC_009149_3 NC_009150_3 NC_009151_3 NC_009152_3 NC_009153_3 NC_009154_3 NC_009155_3 NC_009156_3 NC_009157_3 ; do bcftools convert ${i}.gvcf.gz --gvcf2vcf -f /home/mccuem/shared/Projects/HorseGenomeProject/Data/ibio_EquCab3/ibio_output_files/GCF_002863925.1_EquCab3.0_genomic/GCF_002863925.1_EquCab3.0_genomic.fna  -o bcftools_joint_genotyped/${i}.genotyped.vcf.gz; done

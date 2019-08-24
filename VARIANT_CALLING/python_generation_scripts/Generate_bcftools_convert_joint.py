@@ -37,22 +37,20 @@ if __name__ == '__main__':
     data = os.path.abspath(args.data)
     chr_ids = os.path.abspath(args.chrs)
     
-    gatk = "/home/mccuem/shared/.local/conda/envs/HorseGenomeProject/bin/gatk/gatk"
-    java = '--java-options "-Xmx4g"'
     ref = "/home/mccuem/shared/Projects/HorseGenomeProject/Data/ibio_EquCab3/ibio_output_files/GCF_002863925.1_EquCab3.0_genomic/GCF_002863925.1_EquCab3.0_genomic.fna"
-
  
-    print(f"Using {gatk}\nwith equine reference {ref}")
+    print(f"Using bcftools with equine reference {ref}")
 
     header = (
               "#!/bin/bash -l\n"  
               "#PBS -l nodes=1:ppn=12,walltime=48:00:00,mem=12g\n"
               "#PBS -m abe\n"
               "#PBS -M durwa004@umn.edu\n"
-              "#PBS -o $PBS_JOBID.gatk_genotypegvcfs.out\n"
-              "#PBS -e $PBS_JOBID.gatk_genotypegvcfs.err\n"
-              "#PBS -N gatk_genotypegvcfs.pbs\n"
+              "#PBS -o $PBS_JOBID.bcftools_convert_joint.out\n"
+              "#PBS -e $PBS_JOBID.bcftools_convert_joint.err\n"
+              "#PBS -N bcftools_convert_joint.pbs\n"
               "#PBS -q small\n"
+              "module load bcftools\n"
              )
     
     tmp = []
@@ -61,15 +59,12 @@ if __name__ == '__main__':
             a = file_name.split(".gvcf.gz.tbi")
             tmp.append(a[0])
     
-    pbs = os.path.join(os.getcwd(), "gatk_genotypegvcfs_joint.pbs")
+    pbs = os.path.join(os.getcwd(), "bcftools_convert_joint.pbs")
     
     with open(pbs, "w") as f:
         print(header, file=f)
         print(f"cd {chr_ids}\n", file=f)
-        print("for i in ", " ".join(tmp), "; do ", file=f, sep = "")
-        print(f"{gatk} {java}" 
-              + " GenotypeGVCFs -R "
-              + f"{ref} "
-              + "-V ${i}.gvcf.gz"
-              + " -O gatk_joint_genotyped/${i}.genotyped.vcf.gz; done", file=f)
-        
+        print("for i in ", " ".join(tmp), "; do "
+             + "bcftools convert ${i}.gvcf.gz --gvcf2vcf " 
+             + f"-f {ref}"
+             + "  -o bcftools_joint_genotyped/${i}.genotyped.vcf.gz; done", file=f)

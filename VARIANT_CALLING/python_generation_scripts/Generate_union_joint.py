@@ -69,7 +69,7 @@ if __name__ == '__main__':
         print("for i in ", " ".join(tmp), "; do ", file=f, sep = "")
         print(f"{gatk} {java}" 
               + " GenotypeGVCFs -R "
-              + f"{ref} "
-              + "-V ${i}.gvcf.gz"
-              + " -O gatk_joint_genotyped/${i}.genotyped.vcf.gz; done", file=f)
+              + f"{ref} \\"
+              + "-V ${i}.gvcf.gz", file=f)
+        print(" -o gatk_joint_genotyped/${i}.genotyped.vcf.gz -nt 4; done", file=f)
         
