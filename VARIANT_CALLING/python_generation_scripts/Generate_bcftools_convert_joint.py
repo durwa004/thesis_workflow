@@ -26,6 +26,12 @@ def make_arg_parser():
             metavar="",
             required=True,
             help="Path to directory containing group gvcfs [required]")
+    parser.add_argument(
+            "-p", "--prog",
+            default=argparse.SUPPRESS,
+            metavar="",
+            required=True,
+            help="output gvcf type e.g. bcftools/gatk [required]")
     return parser
 
 
@@ -36,19 +42,19 @@ if __name__ == '__main__':
 
     data = os.path.abspath(args.data)
     chr_ids = os.path.abspath(args.chrs)
-    
-    ref = "/home/mccuem/shared/Projects/HorseGenomeProject/Data/ibio_EquCab3/ibio_output_files/GCF_002863925.1_EquCab3.0_genomic/GCF_002863925.1_EquCab3.0_genomic.fna"
- 
-    print(f"Using bcftools with equine reference {ref}")
+    program = args.prog
+    i = "${i}"
+
+    print(f"Using {program}")
 
     header = (
               "#!/bin/bash -l\n"  
               "#PBS -l nodes=1:ppn=12,walltime=48:00:00,mem=12g\n"
               "#PBS -m abe\n"
               "#PBS -M durwa004@umn.edu\n"
-              "#PBS -o $PBS_JOBID.bcftools_convert_joint.out\n"
-              "#PBS -e $PBS_JOBID.bcftools_convert_joint.err\n"
-              "#PBS -N bcftools_convert_joint.pbs\n"
+              f"#PBS -o $PBS_JOBID.{program}_convert_joint.out\n"
+              f"#PBS -e $PBS_JOBID.{program}_convert_joint.err\n"
+              f"#PBS -N {program}_convert_joint.pbs\n"
               "#PBS -q small\n"
               "module load bcftools\n"
              )
@@ -59,12 +65,11 @@ if __name__ == '__main__':
             a = file_name.split(".gvcf.gz.tbi")
             tmp.append(a[0])
     
-    pbs = os.path.join(os.getcwd(), "bcftools_convert_joint.pbs")
+    pbs = os.path.join(os.getcwd(), f"{program}_convert_joint.pbs")
     
     with open(pbs, "w") as f:
         print(header, file=f)
         print(f"cd {chr_ids}\n", file=f)
         print("for i in ", " ".join(tmp), "; do "
-             + "bcftools convert ${i}.gvcf.gz --gvcf2vcf " 
-             + f"-f {ref}"
-             + "  -o bcftools_joint_genotyped/${i}.genotyped.vcf.gz; done", file=f)
+             + "bcftools view ${i}.gvcf.gz -g hom -g het" 
+             + f" -o {program}_joint_genotyped/",i,".genotyped.vcf.gz; done", file=f,sep="")
