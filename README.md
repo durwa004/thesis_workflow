@@ -79,11 +79,18 @@ python python_generation_scripts/Generate_union_PBS.py -i horse_ids.txt -d /home
 #Get intersect of the 3 VCs: intersect_all.pbs
 
 ###JOINT###
-#gatk_GenotypeVCFs_all.py - genotype all gatk gvcfs together
+#Generate_GenotypeVCFs_all.py - genotype joint called gatk gvcfs by chromosome
 ```
-python python_Generation_scripts/gatk_GenotypeVCFs_all.py -i horse_ids.txt -d /home/mccuem/shared/Projects/HorseGenomeProject/Data/ibio_EquCab3/ibio_output_files -p GenotypeGVCFS
+python python_generation_scripts/Generate_GenotypeVCFs_all.py -d /home/mccuem/shared/Projects/HorseGenomeProject/Data/ibio_EquCab3/ibio_output_files/gatk_joint/gatk_joint_genotyped/ -c /home/mccuem/shared/Projects/HorseGenomeProject/Data/ibio_EquCab3/ibio_output_files/gatk_joint/
 ```
-#output file: gatk_GenotypeGVCFs.pbs
+#output file: gatk_genotypegvcfs_joint.pbs
+
+#Convert bcftools gvcfs to vcfs
+#Generate_bcftools_convert_joint.py
+```
+python python_generation_scripts/Generate_bcftools_convert_joint.py -d /home/mccuem/shared/Projects/HorseGenomeProject/Data/ibio_EquCab3/ibio_output_files/bcftools_joint/bcftools_joint_genotyped/ -c /home/mccuem/shared/Projects/HorseGenomeProject/Data/ibio_EquCab3/ibio_output_files/bcftools_joint/
+```
+#output_file: bcftools_convert_joint.pbs
 
 #Need to get union/intersect scripts for each chromosome (TO DO)
 

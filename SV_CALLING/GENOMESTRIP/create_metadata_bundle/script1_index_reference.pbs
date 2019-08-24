@@ -1,0 +1,12 @@
+#!/bin/bash -l
+#PBS -l nodes=1:ppn=8,walltime=24:00:00,mem=40gb
+#PBS -m abe
+#PBS -M durwa004@umn.edu
+#PBS -q mcqueue
+
+source ~/.genomestrip_bashrc
+
+cd /home/mccuem/shared/Projects/HorseGenomeProject/Data/ibio_EquCab3/Structural_variants/genomestrip/References/
+
+#Index reference fasta using same version of bwa as downloaded with genomestrip
+/home/mccuem/shared/.local/conda/envs/HorseGenomeProject/bin/svtoolkit/bwa/bwa index GCF_002863925.1_EquCab3.0_genomic.fasta

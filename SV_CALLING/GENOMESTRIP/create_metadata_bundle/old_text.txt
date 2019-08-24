@@ -1,13 +1,3 @@
-#!/bin/bash -l
-#PBS -l nodes=1:ppn=8,walltime=24:00:00,mem=40gb
-#PBS -m abe
-#PBS -M durwa004@umn.edu
-#PBS -q mcqueue
-
-source ~/.genomestrip_bashrc
-
-cd /home/mccuem/shared/Projects/HorseGenomeProject/Data/EquCab3/dz_cases/CNVs/genomestrip/genomestrip_ibio/References/
-
 runDir=/home/mccuem/shared/Projects/HorseGenomeProject/Data/EquCab3/dz_cases/CNVs/genomestrip/genomestrip_ibio/References/
 
 reference=GCF_002863925.1_EquCab3.0_genomic
