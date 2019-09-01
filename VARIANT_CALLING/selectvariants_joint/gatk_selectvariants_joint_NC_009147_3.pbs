@@ -1,0 +1,13 @@
+#!/bin/bash -l
+#PBS -l nodes=1:ppn=4,walltime=48:00:00,mem=4g
+#PBS -m abe
+#PBS -M durwa004@umn.edu
+#PBS -o $PBS_JOBID.gatk_selectvariants_joint_NC_009147_3.out
+#PBS -e $PBS_JOBID.gatk_selectvariants_joint_NC_009147_3.err
+#PBS -N gatk_selectvariants_joint_NC_009147_3.pbs
+#PBS -q small
+source /home/mccuem/shared/.local/conda/bin/activate gatk4_4.1.0
+
+cd /home/mccuem/shared/Projects/HorseGenomeProject/Data/ibio_EquCab3/ibio_output_files/joint_gatk
+
+gatk --java-options "-Xmx4g" SelectVariants -R /home/mccuem/shared/Projects/HorseGenomeProject/Data/ibio_EquCab3/ibio_output_files/GCF_002863925.1_EquCab3.0_genomic/GCF_002863925.1_EquCab3.0_genomic.fna --select-type-to-include SNP --select-type-to-include INDEL --select-type-to-include MNP -V NC_009147_3.gvcf.gz -O NC_009147_3.genotyped.vcf.gz
