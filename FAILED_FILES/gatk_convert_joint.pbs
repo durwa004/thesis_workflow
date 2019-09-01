@@ -1,0 +1,15 @@
+#!/bin/bash -l
+#PBS -l nodes=1:ppn=12,walltime=48:00:00,mem=12g
+#PBS -m abe
+#PBS -M durwa004@umn.edu
+#PBS -o $PBS_JOBID.gatk_convert_joint.out
+#PBS -e $PBS_JOBID.gatk_convert_joint.err
+#PBS -N gatk_convert_joint.pbs
+#PBS -q small
+module load bcftools
+
+cd /home/mccuem/shared/Projects/HorseGenomeProject/Data/ibio_EquCab3/ibio_output_files/bcftools_joint
+
+for i in NC_001640_1.genotyped.vcf.gz.gz.tbi; do bcftools view ${i}.gvcf.gz -g hom -g het -o gatk_joint_genotyped/${i}.genotyped.vcf
+/home/mccuem/shared/.local/conda/envs/HorseGenomeProject/bin/svtoolkit_2.00.1833/svtoolkit/bgzip gatk_joint_genotyped/${i}.genotyped.vcf
+/home/mccuem/shared/.local/conda/envs/HorseGenomeProject/bin/svtoolkit_2.00.1833/svtoolkit/tabix gatk_joint_genotyped/${i}.genotyped.vcf.gz; done
