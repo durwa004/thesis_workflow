@@ -1,16 +1,29 @@
 ###Pipeline for thesis.
 
+##################################################################################################################################################################################
 FAILED_FILES - Old scripts that I am not sure can be deleted yet! 
+bcftools_bgzip_tabix_joint.pbs - performs bgzip and tabix on bcftools output
+gatk_convert_joint.pbs and bcftools_convert_joint.pbs - perform bcftools call (used to select only variants (i.e. convert gvcf to vcf) but output doesn't work with gatk so used a different method)
+
+##################################################################################################################################################################################
 
 GeneratePBS.py - script to create pbs scripts for GATK combine variants
   #For GeneratePBS.py type scripts, need to use python 3.6 - which is available in the snakemake conda environment
 
+##################################################################################################################################################################################
+
 GENETIC_BURDEN - scripts for running the genetic burden pipeline
 #Individual and group union and intersect of VCs coding variants can be extracted using the scripts in the annotation folder.
 
+##################################################################################################################################################################################
+
 MAPPING - scripts for mapping FASTQs
 
+##################################################################################################################################################################################
+
 PROTOCOLS - all protocols for setting up and running pipeline
+
+##################################################################################################################################################################################
 
 SV_CALLING - scripts for performing structural variant analysis 
 #BREAKDANCER
@@ -32,11 +45,13 @@ SV_CALLING - scripts for performing structural variant analysis
 
 #test.py - scripts for modifying the GeneratePBS.py script (temp files)
 
-TRANSFERRING_DATA - scripts for transferring data from interval bio to MSI
+##################################################################################################################################################################################
 
 UNFREEZE - scripts to unfreeze data following transfer by ibio
   #Generate_unfreeze.py - python script to create .pbs
   #s3cmd_get.pbs - script to get particular type of file
+
+##################################################################################################################################################################################
 
 VARIANT_ANNOTATION - scripts for running SnpEff, Ensembl-VEP and ANNOVAR
 ###INDIVIDUAL###
@@ -61,6 +76,8 @@ VARIANT_ANNOTATION - scripts for running SnpEff, Ensembl-VEP and ANNOVAR
 #Ensembl-VEP/Ensembl-VEP_filter.pbs
 #SnpEff/Snpsift.pbs
 
+##################################################################################################################################################################################
+
 VARIANT_CALLING - scripts for obtaining individual and group gvcfs from bcftools and gatk, and individual gvcfs from platypus
 ###INDIVIDUAL###
 #Generate_GATK_ind_calling_scripts.py - Individual variant calling for gatk
@@ -79,20 +96,25 @@ python python_generation_scripts/Generate_union_PBS.py -i horse_ids.txt -d /home
 #Get intersect of the 3 VCs: intersect_all.pbs
 
 ###JOINT###
-#Convert bcftools and gatk gvcfs to vcfs
-#Generate_bcftools_convert_joint.py
+#Convert gvcfs to vcfs
 ```
-python python_generation_scripts/Generate_bcftools_convert_joint.py -d /home/mccuem/shared/Projects/HorseGenomeProject/Data/ibio_EquCab3/ibio_output_files/bcftools_joint/bcftools_joint_genotyped/ -c /home/mccuem/shared/Projects/HorseGenomeProject/Data/ibio_EquCab3/ibio_output_files/bcftools_joint/ -p bcftools
+python python_generation_scripts/Generate_SelectVariants.py -d /home/mccuem/shared/Projects/HorseGenomeProject/Data/ibio_EquCab3/ibio_output_files/ -p gatk
 ```
-#output_file: bcftools_convert_joint.pbs
+#Output: gatk_selectvariants_joint.pbs/bcftools_selectvariants_joint.pbs
 
+###Union scripts for each chromosome###
 ```
-python python_generation_scripts/Generate_bcftools_convert_joint.py -d /home/mccuem/shared/Projects/HorseGenomeProject/Data/ibio_EquCab3/ibio_output_files/gatk_joint/gatk_joint_genotyped/ -c /home/mccuem/shared/Projects/HorseGenomeProject/Data/ibio_EquCab3/ibio_output_files/gatk_joint/ -p gatk
+python python_generation_scripts/Generate_union_by_chr.py -d /home/mccuem/shared/Projects/HorseGenomeProject/Data/ibio_EquCab3/ibio_output_files/)
 ```
-#output_file: gatk_convert_joint.pbs
+#Output_file (for each chromosome): union_joint_NC_001640_1.pbs 
 
-#Need to get union/intersect scripts for each chromosome (TO DO)
+###Intersect scripts for each chromosome###
+```
+python python_generation_scripts/Generate_intersect_joint.pbs -d /home/mccuem/shared/Projects/HorseGenomeProject/Data/ibio_EquCab3/ibio_output_files/
+```
+#Output_file (for each chromosome): intersect_joint_NC_001640_1.pbs 
 
+##################################################################################################################################################################################
 
 VARIANT_PRIORITIZATION - scripts for prioritizing each of the diseases for investigation
 
