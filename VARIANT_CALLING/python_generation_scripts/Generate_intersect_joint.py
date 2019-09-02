@@ -63,4 +63,6 @@ if __name__ == '__main__':
             print(f"gatk {java}"
                   + " SelectVariants -R "
                   + f"{ref} "
-                  + "-V joint_union/" + i + "_union_joint.vcf.gz -O joint_intersect/" + i + "_intersect_joint.vcf.gz", file=f, sep="")
+                  + "-V joint_union/" + i + "_union_joint.vcf.gz -O joint_intersect/" + i + "_intersect_joint.vcf.gz --select 'set == "
+                  +'"Intersection";'
+                  + "'", file=f, sep="")

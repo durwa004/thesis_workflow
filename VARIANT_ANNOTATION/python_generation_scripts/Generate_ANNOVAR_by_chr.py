@@ -45,17 +45,17 @@ if __name__ == '__main__':
         pbs = os.path.join(os.getcwd(), "ANNOVAR_intersect_" + i + ".pbs")
         header = (
               "#!/bin/bash -l\n"
-              "#PBS -l nodes=1:ppn=4,walltime=24:00:00,mem=4g\n"
+              "#PBS -l nodes=1:ppn=8,walltime=24:00:00,mem=20g\n"
               "#PBS -m abe\n"
               "#PBS -M durwa004@umn.edu\n"
               "#PBS -o $PBS_JOBID.ANNOVAR_intersect_" + i + ".out\n"
               "#PBS -e $PBS_JOBID.ANNOVAR_intersect_" + i + ".err\n"
               "#PBS -N ANNOVAR_intersect_" + i + ".pbs\n"
-              "#PBS -q mcqueue\n"
+              "#PBS -q small\n"
                  )
 
         with open(pbs, "w") as f:
             print(header, file=f)
             print(f"cd {data}\n", file=f)
-            print(f"perl {annovar_v}convert2annovar.pl -format vcf4 -allsample -include -withfreq " + i + "_intersect_joint.vcf.gz --out annovar/" + i + "_annovar_intersect.avinput\n"
+            print(f"#perl {annovar_v}convert2annovar.pl -format vcf4 -allsample -include -withfreq " + i + "_intersect_joint.vcf.gz --out annovar/" + i + "_annovar_intersect.avinput\n"
                   + f"perl {annovar_v}annotate_variation.pl -buildver GCF_002863925.1_EquCab3.0 annovar/" + i + f"_annovar_intersect.avinput {annovar_v}{annovar_db} --geneanno --hgvs --aamatrixfile {annovar_v}example/grantham.matrix --out annovar/" + i + "_annovar_intersect", file = f, sep = "")

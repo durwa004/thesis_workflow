@@ -10,4 +10,4 @@ source /home/mccuem/shared/.local/conda/bin/activate gatk4_4.1.0
 
 cd /home/mccuem/shared/Projects/HorseGenomeProject/Data/ibio_EquCab3/ibio_output_files/
 
-gatk --java-options "-Xmx4g" SelectVariants -R /home/mccuem/shared/Projects/HorseGenomeProject/Data/ibio_EquCab3/ibio_output_files/GCF_002863925.1_EquCab3.0_genomic/GCF_002863925.1_EquCab3.0_genomic.fna -V joint_union/NC_009167_3_union_joint.vcf.gz -O joint_intersect/NC_009167_3_intersect_joint.vcf.gz
+gatk --java-options "-Xmx4g" SelectVariants -R /home/mccuem/shared/Projects/HorseGenomeProject/Data/ibio_EquCab3/ibio_output_files/GCF_002863925.1_EquCab3.0_genomic/GCF_002863925.1_EquCab3.0_genomic.fna -V joint_union/NC_009167_3_union_joint.vcf.gz -O joint_intersect/NC_009167_3_intersect_joint.vcf.gz --select 'set == "Intersection";'

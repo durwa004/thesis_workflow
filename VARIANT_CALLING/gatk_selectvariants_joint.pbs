@@ -8,7 +8,7 @@
 #PBS -q small
 source /home/mccuem/shared/.local/conda/bin/activate gatk4_4.1.0
 
-cd /home/mccuem/shared/Projects/HorseGenomeProject/Data/ibio_EquCab3/ibio_output_files/joint_gatk/
+cd /home/mccuem/shared/Projects/HorseGenomeProject/Data/ibio_EquCab3/ibio_output_files/problem_chr/
 
-for i in NC_001640_1; do 
+for i in NC_009149_3.bcftools; do 
 gatk --java-options "-Xmx4g" SelectVariants -R /home/mccuem/shared/Projects/HorseGenomeProject/Data/ibio_EquCab3/ibio_output_files/GCF_002863925.1_EquCab3.0_genomic/GCF_002863925.1_EquCab3.0_genomic.fna -V ${i}.gvcf.gz -O ${i}.genotyped.vcf.gz; done
