@@ -15,6 +15,17 @@ GeneratePBS.py - script to create pbs scripts for GATK combine variants
 GENETIC_BURDEN - scripts for running the genetic burden pipeline
 #Individual and group union and intersect of VCs coding variants can be extracted using the scripts in the annotation folder.
 
+#JOINT CALLING for SnpEff/annovar
+Create list of chrom/pos/impact for analysis
+```
+$ python Get_chrom_pos_impact.py -d /home/mccuem/shared/Projects/HorseGenomeProject/Data/ibio_EquCab3/ibio_output_files/joint_intersect/ -p SnpEff
+```
+Output: SnpEff_chrom_pos_impact.txt and annovar_chrom_pos_impact.txt
+```
+$ python Get_union_intersect_VEPs.py -d /home/mccuem/shared/Projects/HorseGenomeProject/Data/ibio_EquCab3/ibio_output_files/joint_intersect/
+```
+Outputt
+
 ##################################################################################################################################################################################
 
 MAPPING - scripts for mapping FASTQs
@@ -100,7 +111,7 @@ python python_generation_scripts/Generate_union_PBS.py -i horse_ids.txt -d /home
 ```
 python python_generation_scripts/Generate_SelectVariants.py -d /home/mccuem/shared/Projects/HorseGenomeProject/Data/ibio_EquCab3/ibio_output_files/ -p gatk
 ```
-#Output: gatk_selectvariants_joint.pbs/bcftools_selectvariants_joint.pbs
+#Output: gatk_selectvariants_joint_NC_001640_1.pbs/bcftools_selectvariants_jointNC_001640_1.pbs
 
 ###Union scripts for each chromosome###
 ```
