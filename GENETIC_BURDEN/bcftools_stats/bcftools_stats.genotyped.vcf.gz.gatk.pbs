@@ -1,0 +1,13 @@
+#!/bin/bash -l
+#PBS -l nodes=1:ppn=12,walltime=48:00:00,mem=12g
+#PBS -m abe
+#PBS -M durwa004@umn.edu
+#PBS -o $PBS_JOBID.bcftools_stats.genotyped.vcf.gz.out
+#PBS -e $PBS_JOBID.bcftools_stats.genotyped.vcf.gz.err
+#PBS -N bcftools_stats.genotyped.vcf.gz.pbs
+#PBS -q small
+module load bcftools
+
+cd /home/mccuem/shared/Projects/HorseGenomeProject/Data/ibio_EquCab3/ibio_output_files/genotyped_files/joint_gatk/joint_gatk
+
+for i in NC_009164_3 NC_009165_3 NC_009166_3 NC_009167_3 NC_009168_3 NC_009169_3 NC_009170_3 NC_009171_3 NC_009172_3 NC_009173_3 NC_009174_3 NC_009175_3 unplaced ; do bcftools stats ${i}.genotyped.vcf.gz > ${i}.genotyped.vcf.gz.stats;done
