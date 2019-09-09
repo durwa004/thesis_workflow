@@ -1,0 +1,15 @@
+#!/bin/bash -l
+#PBS -l nodes=1:ppn=12,walltime=48:00:00,mem=4g
+#PBS -m abe
+#PBS -M durwa004@umn.edu
+#PBS -o $PBS_JOBID.s3cmd_put_joint_genotyped.out
+#PBS -e $PBS_JOBID.s3cmd_put_joint_genotyped.err
+#PBS -N s3cmd_put_joint_genotyped.pbs
+#PBS -q small
+
+cd /home/mccuem/shared/Projects/HorseGenomeProject/Data/ibio_EquCab3/ibio_output_files/genotyped_files/gatk/
+
+#/usr/bin/s3cmd  --config /home/mccuem/shared/.local/.s3cfg get --recursive s3://durwa004/ibio_analysis_2019/joint_bcftools_genotyped/
+
+/usr/bin/s3cmd  --config /home/mccuem/shared/.local/.s3cfg get --recursive s3://durwa004/ibio_analysis_2019/joint_gatk_genotyped/
+
