@@ -38,17 +38,22 @@ if __name__ == '__main__':
     program = args.prog
 
     impact = data + "/" + program + "/" + program + "_chrom_pos_impact.txt"
+    info = data + "/" + program + "/" + program + "_number_of_variants.txt"
 
-    with open(impact, "w") as output_file:
-        count_high = 0
-        count_mod = 0
-        count_low = 0
-        count_modifier = 0
-        count_unknown = 0
+    with open(impact, "w") as output_file, open(info, "w") as info_file:
         print("CHROM\tPOS\tIMPACT", file= output_file)
+        print("CHROM\thigh\tmoderate\tlow\tmodifier\tunknown", file = info_file)
         if program == "SnpEff":
             for file_name in os.listdir(data + "/" +  program):
-                if file_name.endswith(".vcf.gz"):
+                if file_name.endswith("coding.ann.vcf.gz"):
+                    chromosome = file_name.split("_snpeff_intersect.coding.ann.vcf.gz")
+                    chromosome = chromosome[0]
+                    print(f"Processing {chromosome}")
+                    count_high = 0
+                    count_mod = 0
+                    count_low = 0
+                    count_modifier = 0
+                    count_unknown = 0
                     with gzip.open(data + "/" + program + "/" + file_name,"rt") as snpeff:
                         for line in snpeff:
                             line = line.rstrip("\n").split("\t")
@@ -70,10 +75,20 @@ if __name__ == '__main__':
                                  else:
                                      count_unknown +=1
                                      print(line[0],line[1], "UNKNOWN", file = output_file, sep = "\t")
-            print(f"{file_name} {program}\nhigh impact: {count_high}\nmoderate impact: {count_mod}\nlow impact: {count_low}\nunknown impact: {count_unknown}")
+                    print(f"{chromosome}\t{count_high}\t{count_mod}\t{count_low}\t{count_modifier}\t{count_unknown}",file=info_file)
+                else:
+                    continue
         elif program == "annovar":
             for file_name in os.listdir(data + "/" +  program):
                 if file_name.endswith(".exonic_variant_function"):
+                    chromosome = file_name.split("_annovar_intersect.exonic_variant_function")
+                    chromosome = chromosome[0]
+                    print(f"Processing {chromosome}")
+                    count_high = 0
+                    count_mod = 0
+                    count_low = 0
+                    count_modifier = 0
+                    count_unknown = 0
                     with open(data + "/" + program + "/" + file_name,"r") as annovar:
                         for line in annovar:
                             line = line.rstrip("\n").split("\t")
@@ -92,4 +107,4 @@ if __name__ == '__main__':
                             else:
                                 count_unknown +=1
                                 print(line[3],line[4], "UNKNOWN", file = output_file, sep = "\t")
-            print(f"{file_name} {program}\nhigh impact: {count_high}\nmoderate impact: {count_mod}\nlow impact: {count_low}\nmodifier {count_modifier}\nunknown impact: {count_unknown}")
+                    print(f"{chromosome}\t{count_high}\t{count_mod}\t{count_low}\t{count_modifier}\t{count_unknown}",file=info_file) 
