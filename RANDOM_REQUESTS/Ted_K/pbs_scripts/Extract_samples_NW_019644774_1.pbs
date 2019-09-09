@@ -1,0 +1,15 @@
+#!/bin/bash -l
+#PBS -l nodes=1:ppn=4,walltime=48:00:00,mem=4g
+#PBS -m abe
+#PBS -M durwa004@umn.edu
+#PBS -o $PBS_JOBID.Extract_samples_NW_019644774_1.out
+#PBS -e $PBS_JOBID.Extract_samples_NW_019644774_1.err
+#PBS -N Extract_samples_NW_019644774_1.pbs
+#PBS -q small
+source /home/mccuem/shared/.local/conda/bin/activate gatk4_4.1.0
+
+cd /home/mccuem/shared/Projects/HorseGenomeProject/Data/ibio_EquCab3/ibio_output_files/Ted_K/
+
+/usr/bin/s3cmd  --config /home/mccuem/shared/.local/.s3cfg get s3://mccue-lab/ibiodatatransfer2019/joint_gatk/NW_019644774_1.gvcf.gz
+/usr/bin/s3cmd  --config /home/mccuem/shared/.local/.s3cfg get s3://mccue-lab/ibiodatatransfer2019/joint_gatk/NW_019644774_1.gvcf.gz
+gatk --java-options "-Xmx4g" SelectVariants -R /home/mccuem/shared/Projects/HorseGenomeProject/Data/ibio_EquCab3/ibio_output_files/GCF_002863925.1_EquCab3.0_genomic/GCF_002863925.1_EquCab3.0_genomic.fna --exclude-sample-name /home/mccuem/shared/Projects/HorseGenomeProject/scripts/EquCab3/thesis_workflow/RANDOM_REQUESTS/Ted_K/horses_to_exclude.args -V NW_019644774_1.gvcf.gz -O NW_019644774_1.updated.gvcf.gz
