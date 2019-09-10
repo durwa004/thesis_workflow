@@ -24,7 +24,7 @@ Output: SnpEff_chrom_pos_impact.txt and annovar_chrom_pos_impact.txt
 ```
 $ python Get_union_intersect_VEPs.py -d /home/mccuem/shared/Projects/HorseGenomeProject/Data/ibio_EquCab3/ibio_output_files/joint_intersect/
 ```
-Outputt
+Output
 
 ##################################################################################################################################################################################
 
@@ -33,6 +33,10 @@ MAPPING - scripts for mapping FASTQs
 ##################################################################################################################################################################################
 
 PROTOCOLS - all protocols for setting up and running pipeline
+##################################################################################################################################################################################
+
+RANDOM_REQUESTS - any additional requests I get with regard to this data
+#Ted_K - scripts to transfer gvcfs (excluding PPID and 1KG horses) to Ted
 
 ##################################################################################################################################################################################
 
@@ -61,7 +65,11 @@ SV_CALLING - scripts for performing structural variant analysis
 UNFREEZE - scripts to unfreeze data following transfer by ibio
   #Generate_unfreeze.py - python script to create .pbs
   #s3cmd_get.pbs - script to get particular type of file
-
+#Download coverage info for each horse
+```
+$ python Generate_unfreeze_coverage.py -d /home/mccuem/shared/Projects/HorseGenomeProject/Data/ibio_EquCab3/ibio_output_files/DOC/ -c get -i ../horse_ids.txt -f coverage.tsv
+$ qsub /home/mccuem/shared/Projects/HorseGenomeProject/scripts/EquCab3/thesis_workflow/UNFREEZE/s3cmd_get_coverage.tsv.pbs 
+```
 ##################################################################################################################################################################################
 
 VARIANT_ANNOTATION - scripts for running SnpEff, Ensembl-VEP and ANNOVAR
@@ -80,7 +88,18 @@ VARIANT_ANNOTATION - scripts for running SnpEff, Ensembl-VEP and ANNOVAR
 ##union##
 
 ##intersect##
+#ANNOVAR
+```
+$ python ../python_generation_scripts/Generate_ANNOVAR_by_chr.py -d /home/mccuem/shared/Projects/HorseGenomeProject/Data/ibio_EquCab3/ibio_output_files/joint_intersect/
+$ qsub /home/mccuem/shared/Projects/HorseGenomeProject/scripts/EquCab3/thesis_workflow/VARIANT_ANNOTATION/ANNOVAR/ANNOVAR_intersect_NC_009149_3.pbs 
+```
 
+#SnpEff
+```
+$ python ../python_generation_scripts/Generate_SnpEff_by_chr.py -d /home/mccuem/shared/Projects/HorseGenomeProject/Data/ibio_EquCab3/ibio_output_files/joint_intersect/
+$ qsub /home/mccuem/shared/Projects/HorseGenomeProject/scripts/EquCab3/thesis_workflow/VARIANT_ANNOTATION/SnpEff/SnpEff_intersect_NC_009149_3.pbs 
+$ qsub /home/mccuem/shared/Projects/HorseGenomeProject/scripts/EquCab3/thesis_workflow/VARIANT_ANNOTATION/SnpEff/SnpSift_filter_NC_009149_3.pbs 
+```
 ###Extract coding variants###
 ##union and intersect##
 #Already done for ANNOVAR
