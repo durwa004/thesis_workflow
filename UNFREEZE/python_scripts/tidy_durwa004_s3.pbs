@@ -1,0 +1,56 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Mon Aug  5 11:04:17 2019
+@author: jonahcullen
+"""
+
+import argparse
+import os
+
+
+def make_arg_parser():
+    parser = argparse.ArgumentParser(
+            prog="GeneratePBS.py",
+            formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+    parser.add_argument(
+            "-i", "--ids",
+            default=argparse.SUPPRESS,
+            metavar="",
+            required=True,
+            help="Text file containing output of s3cmd ls - one per line [required]")
+    return parser
+
+
+if __name__ == '__main__':
+     
+    parser = make_arg_parser()
+    args = parser.parse_args()
+
+    horse_ids = os.path.abspath(args.ids)
+
+    s3cmd = "/usr/bin/s3cmd  --config /home/mccuem/shared/.local/.s3cfg mv"
+    
+    header = (
+              "#!/bin/bash -l\n"  
+              "#PBS -l nodes=1:ppn=6,walltime=24:00:00,mem=2g\n"
+              "#PBS -m abe\n"
+              "#PBS -M durwa004@umn.edu\n"
+              "#PBS -o $PBS_JOBID.s3cmd_tidy.out\n"
+              "#PBS -e $PBS_JOBID.s3cmd_tidy.err\n"
+              "#PBS -N s3cmd_tidy.pbs\n"
+              "#PBS -q small\n"
+             )
+    
+    tmp = []
+    with open(horse_ids) as ids:
+        for line in ids:
+            line = line.rstrip("\n").split()
+            tmp.append(line[-1])
+    
+    pbs = os.path.join(os.getcwd(),f"s3cmd_tidy.pbs")
+    
+    with open(pbs, "w") as f:
+        print(header, file=f)
+        for i in tmp:
+            print(f"{s3cmd} s3://durwa004/{i} s3://durwa004/",file=f) 
