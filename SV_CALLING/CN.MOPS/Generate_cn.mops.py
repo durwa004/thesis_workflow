@@ -77,7 +77,7 @@ if __name__ == '__main__':
         print("sampleNames = c("
         + ", ".join(tmp_id)
         + ")", file=f)
-        print("bamDataRanges <- getReadCountsFromBAM(BAMFiles,sampleNames, RefSeqNames, WL = 5000, parallel=4)",file=f)
+        print("bamDataRanges <- getReadCountsFromBAM(BAMFiles,sampleNames, RefSeqNames, WL = 5000, parallel=4, 'paired')",file=f)
         print("res <- cn.mops(bamDataRanges)",file=f)
         print("#Calculate integer copy numbers", file=f)
         print("results <- calcIntegerCopyNumbers(res)",file=f)

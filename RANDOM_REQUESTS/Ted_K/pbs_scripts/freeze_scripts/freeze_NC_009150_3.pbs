@@ -1,0 +1,12 @@
+#!/bin/bash -l
+#PBS -l nodes=1:ppn=4,walltime=48:00:00,mem=4g
+#PBS -m abe
+#PBS -M durwa004@umn.edu
+#PBS -o $PBS_JOBID.freeze_NC_009150_3.out
+#PBS -e $PBS_JOBID.freeze_NC_009150_3.err
+#PBS -N freeze_NC_009150_3.pbs
+#PBS -q small
+
+cd /home/mccuem/shared/Projects/HorseGenomeProject/Data/ibio_EquCab3/ibio_output_files/Ted_K/finished/
+
+/usr/bin/s3cmd  --config /home/mccuem/shared/.local/.s3cfg put NC_009150_3.updated.gvcf.gz s3://durwa004/ibio_updated_gvcfs/ && /usr/bin/s3cmd  --config /home/mccuem/shared/.local/.s3cfg put NC_009150_3.updated.gvcf.gz.tbi s3://durwa004/ibio_updated_gvcfs/

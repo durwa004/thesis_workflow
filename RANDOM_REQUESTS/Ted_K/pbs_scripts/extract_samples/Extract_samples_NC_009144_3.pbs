@@ -1,5 +1,5 @@
 #!/bin/bash -l
-#PBS -l nodes=1:ppn=4,walltime=48:00:00,mem=4g
+#PBS -l nodes=1:ppn=4,walltime=96:00:00,mem=4g
 #PBS -m abe
 #PBS -M durwa004@umn.edu
 #PBS -o $PBS_JOBID.Extract_samples_NC_009144_3.out

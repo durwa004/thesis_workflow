@@ -10,5 +10,6 @@
 cd /home/mccuem/shared/Projects/HorseGenomeProject/Data/ibio_EquCab3/ibio_output_files/joint_intersect/SnpEff
 
 java -Djava.io.tmpdir=/home/mccuem/shared/Projects/HorseGenomeProject/Data/temp_files -Xmx4g -jar /home/mccuem/shared/Projects/HorseGenomeProject/Data/ibio_EquCab3/variant_annotation/SnpEff/snpEff/SnpSift.jar filter "((ANN[0].IMPACT has 'HIGH') | (ANN[*].IMPACT = 'MODERATE') | (ANN[*].IMPACT = 'LOW'))" NC_009149_3_snpeff_intersect.ann.vcf.gz > NC_009149_3_snpeff_intersect.coding.ann.vcf
+mv NC_009149_3_snpeff_intersect.coding.ann.vcf NC_009149_3_snpeff_intersect.coding.vcf
 /home/mccuem/durwa004/.conda/envs/ensembl-vep/bin/bgzip NC_009149_3_snpeff_intersect.coding.vcf
 /home/mccuem/durwa004/.conda/envs/ensembl-vep/bin/tabix NC_009149_3_snpeff_intersect.coding.vcf.gz

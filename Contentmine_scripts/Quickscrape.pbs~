@@ -1,0 +1,22 @@
+#!/bin/bash -l
+#PBS -l nodes=1:ppn=16,walltime=04:00:00,mem=22g
+#PBS -m abe
+#PBS -M durwa004@umn.edu
+#PBS -q lab
+
+export PATH=/usr/home/mccuem/shared/.local/bin:$PATH
+
+source /home/mccuem/shared/.local/conda/bin/activate HorseGenomeProject
+
+cd /home/mccuem/shared/Projects/HorseGenomeProject/Data/CS_paleomix/CS_PL_vcfs/
+java -Xmx2g -jar /home/mccuem/shared/.local/conda/envs/HorseGenomeProject/bin/picard.jar SortVcf I=Brooks_2174_platypus.vcf O=Brooks_2174_platypus_sorted.vcf SEQUENCE_DICTIONARY=/home/mccuem/shared/Projects/HorseGenomeProject/Data/References/Equus_cab_nucl_wChrUn1_2.dict TMP_DIR=/home/mccuem/shared/Projects/HorseGenomeProject/Data/temp_files
+java -Xmx2g -jar /home/mccuem/shared/.local/conda/envs/HorseGenomeProject/bin/picard.jar SortVcf I=Brooks_3147_platypus.vcf O=Brooks_3147_platypus_sorted.vcf SEQUENCE_DICTIONARY=/home/mccuem/shared/Projects/HorseGenomeProject/Data/References/Equus_cab_nucl_wChrUn1_2.dict TMP_DIR=/home/mccuem/shared/Projects/HorseGenomeProject/Data/temp_files
+java -Xmx2g -jar /home/mccuem/shared/.local/conda/envs/HorseGenomeProject/bin/picard.jar SortVcf I=Brooks_3148_platypus.vcf O=Brooks_3148_platypus_sorted.vcf SEQUENCE_DICTIONARY=/home/mccuem/shared/Projects/HorseGenomeProject/Data/References/Equus_cab_nucl_wChrUn1_2.dict TMP_DIR=/home/mccuem/shared/Projects/HorseGenomeProject/Data/temp_files
+java -Xmx2g -jar /home/mccuem/shared/.local/conda/envs/HorseGenomeProject/bin/picard.jar SortVcf I=CLDB_65664_platypus.vcf O=CLDB_65664_platypus_sorted.vcf SEQUENCE_DICTIONARY=/home/mccuem/shared/Projects/HorseGenomeProject/Data/References/Equus_cab_nucl_wChrUn1_2.dict TMP_DIR=/home/mccuem/shared/Projects/HorseGenomeProject/Data/temp_files
+java -Xmx2g -jar /home/mccuem/shared/.local/conda/envs/HorseGenomeProject/bin/picard.jar SortVcf I=CLDB_65665_platypus.vcf O=CLDB_65665_platypus_sorted.vcf SEQUENCE_DICTIONARY=/home/mccuem/shared/Projects/HorseGenomeProject/Data/References/Equus_cab_nucl_wChrUn1_2.dict TMP_DIR=/home/mccuem/shared/Projects/HorseGenomeProject/Data/temp_files
+java -Xmx2g -jar /home/mccuem/shared/.local/conda/envs/HorseGenomeProject/bin/picard.jar SortVcf I=CLDB_65666_platypus.vcf O=CLDB_65666_platypus_sorted.vcf SEQUENCE_DICTIONARY=/home/mccuem/shared/Projects/HorseGenomeProject/Data/References/Equus_cab_nucl_wChrUn1_2.dict TMP_DIR=/home/mccuem/shared/Projects/HorseGenomeProject/Data/temp_files
+java -Xmx2g -jar /home/mccuem/shared/.local/conda/envs/HorseGenomeProject/bin/picard.jar SortVcf I=CON3_platypus.vcf O=CON3_platypus_sorted.vcf SEQUENCE_DICTIONARY=/home/mccuem/shared/Projects/HorseGenomeProject/Data/References/Equus_cab_nucl_wChrUn1_2.dict TMP_DIR=/home/mccuem/shared/Projects/HorseGenomeProject/Data/temp_files
+java -Xmx2g -jar /home/mccuem/shared/.local/conda/envs/HorseGenomeProject/bin/picard.jar SortVcf I=CON15_platypus.vcf O=CON15_platypus_sorted.vcf SEQUENCE_DICTIONARY=/home/mccuem/shared/Projects/HorseGenomeProject/Data/References/Equus_cab_nucl_wChrUn1_2.dict TMP_DIR=/home/mccuem/shared/Projects/HorseGenomeProject/Data/temp_files
+java -Xmx2g -jar /home/mccuem/shared/.local/conda/envs/HorseGenomeProject/bin/picard.jar SortVcf I=CON26_platypus.vcf O=CON26_platypus_sorted.vcf SEQUENCE_DICTIONARY=/home/mccuem/shared/Projects/HorseGenomeProject/Data/References/Equus_cab_nucl_wChrUn1_2.dict TMP_DIR=/home/mccuem/shared/Projects/HorseGenomeProject/Data/temp_files
+java -Xmx2g -jar /home/mccuem/shared/.local/conda/envs/HorseGenomeProject/bin/picard.jar SortVcf I=CON40_platypus.vcf O=CON40_platypus_sorted.vcf SEQUENCE_DICTIONARY=/home/mccuem/shared/Projects/HorseGenomeProject/Data/References/Equus_cab_nucl_wChrUn1_2.dict TMP_DIR=/home/mccuem/shared/Projects/HorseGenomeProject/Data/temp_files
+
