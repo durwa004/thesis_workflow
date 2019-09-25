@@ -1,0 +1,16 @@
+#!/bin/bash -l
+#PBS -l nodes=1:ppn=12,walltime=48:00:00,mem=4g
+#PBS -m abe
+#PBS -M durwa004@umn.edu
+#PBS -o $PBS_JOBID.s3cmd_put_joint_genotyped.out
+#PBS -e $PBS_JOBID.s3cmd_put_joint_genotyped.err
+#PBS -N s3cmd_put_joint_genotyped.pbs
+#PBS -q small
+
+cd /home/mccuem/shared/Projects/HorseGenomeProject/Data/ibio_EquCab3/ibio_output_files/joint_intersect/annovar/
+
+
+/usr/bin/s3cmd  --config /home/mccuem/shared/.local/.s3cfg put --recursive annovar_avinput s3://durwa004/thesis_analysis/annovar_sept_2019/
+/usr/bin/s3cmd  --config /home/mccuem/shared/.local/.s3cfg put --recursive annovar_variant_function s3://durwa004/thesis_analysis/annovar_sept_2019/
+
+

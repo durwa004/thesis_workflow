@@ -1,0 +1,15 @@
+#!/bin/bash -l
+#PBS -l nodes=1:ppn=12,walltime=48:00:00,mem=4g
+#PBS -m abe
+#PBS -M durwa004@umn.edu
+#PBS -o $PBS_JOBID.s3cmd_put_joint_genotyped.out
+#PBS -e $PBS_JOBID.s3cmd_put_joint_genotyped.err
+#PBS -N s3cmd_put_joint_genotyped.pbs
+#PBS -q small
+
+cd /home/mccuem/shared/Projects/HorseGenomeProject/Data/ibio_EquCab3/
+
+#/usr/bin/s3cmd  --config /home/mccuem/shared/.local/.s3cfg put --recursive joint_bcftools s3://durwa004/ibio_analysis_2019/joint_bcftools_genotyped/
+
+/usr/bin/s3cmd  --config /home/mccuem/shared/.local/.s3cfg put --recursive AFIB_cases s3://durwa004/AFIB_analysis_summer_2019/
+

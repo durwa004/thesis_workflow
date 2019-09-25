@@ -40,28 +40,6 @@ RANDOM_REQUESTS - any additional requests I get with regard to this data
 
 ##################################################################################################################################################################################
 
-SV_CALLING - scripts for performing structural variant analysis 
-#BREAKDANCER
-  #pbs_scripts - by breed scripts for running BreakDancer
-  #Generate_breakdancer_script.py - script to generate breakdancer .pbs scripts
-#breed_group_ids - breed ids copied and pasted from intervalbio ID column in Samples_all_april19 google spreadsheet
-#CN.MOPSi
-  #GCF_002863925.1_EquCab3.0_genomic_exc_chrUn.list - list of EquCab3 chromosomes using RefSeq nomenclature (without chromosome unknown contigs)
-  #Generate_cn.mops.py - create cn.mops R scripts
-  #R_scripts - by breed scripts for running cn.mops
-#GENOMESTRIP - 
-  #create_metadata_bundle - scripts required to create metadata bundle for Genomestrip (not necessarily in right order)
-  #.py files - scripts to generate different scripts for running genomestrip
-  #pbs_sciprts - currently only done for arabs
-    #1. SVPreprocessing
-    #2. SVDiscovery
-    #3. SVgenotyper
-    #4. SVCNV_high/low
-
-#test.py - scripts for modifying the GeneratePBS.py script (temp files)
-
-##################################################################################################################################################################################
-
 UNFREEZE - scripts to unfreeze data following transfer by ibio
   #Generate_unfreeze.py - python script to create .pbs
   #s3cmd_get.pbs - script to get particular type of file
@@ -70,41 +48,6 @@ UNFREEZE - scripts to unfreeze data following transfer by ibio
 $ python Generate_unfreeze_coverage.py -d /home/mccuem/shared/Projects/HorseGenomeProject/Data/ibio_EquCab3/ibio_output_files/DOC/ -c get -i ../horse_ids.txt -f coverage.tsv
 $ qsub /home/mccuem/shared/Projects/HorseGenomeProject/scripts/EquCab3/thesis_workflow/UNFREEZE/s3cmd_get_coverage.tsv.pbs 
 ```
-##################################################################################################################################################################################
-
-VARIANT_ANNOTATION - scripts for running SnpEff, Ensembl-VEP and ANNOVAR
-###INDIVIDUAL###
-##union##
-#SnpEff/SnpEff_union_ind.pbs - run SnpEff on union file
-#ANNOVAR/ANNOVAR_union.pbs
-#Ensembl-VEP/Ensembl-VEP_union_ind.pbs
-
-##intersect##
-#SnpEff/SnpEff_intersect_ind.pbs - run SnpEff on union file
-#ANNOVAR/ANNOVAR_intersect.pbs
-#Ensembl-VEP/Ensembl-VEP_intersect_ind.pbs 
-
-###GROUP###
-##union##
-
-##intersect##
-#ANNOVAR
-```
-$ python ../python_generation_scripts/Generate_ANNOVAR_by_chr.py -d /home/mccuem/shared/Projects/HorseGenomeProject/Data/ibio_EquCab3/ibio_output_files/joint_intersect/
-$ qsub /home/mccuem/shared/Projects/HorseGenomeProject/scripts/EquCab3/thesis_workflow/VARIANT_ANNOTATION/ANNOVAR/ANNOVAR_intersect_NC_009149_3.pbs 
-```
-
-#SnpEff
-```
-$ python ../python_generation_scripts/Generate_SnpEff_by_chr.py -d /home/mccuem/shared/Projects/HorseGenomeProject/Data/ibio_EquCab3/ibio_output_files/joint_intersect/
-$ qsub /home/mccuem/shared/Projects/HorseGenomeProject/scripts/EquCab3/thesis_workflow/VARIANT_ANNOTATION/SnpEff/SnpEff_intersect_NC_009149_3.pbs 
-$ qsub /home/mccuem/shared/Projects/HorseGenomeProject/scripts/EquCab3/thesis_workflow/VARIANT_ANNOTATION/SnpEff/SnpSift_filter_NC_009149_3.pbs 
-```
-###Extract coding variants###
-##union and intersect##
-#Already done for ANNOVAR
-#Ensembl-VEP/Ensembl-VEP_filter.pbs
-#SnpEff/Snpsift.pbs
 
 ##################################################################################################################################################################################
 
